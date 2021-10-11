@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Box from "@mui/material/Box";
 import sanityClient from "../client";
+import CardComponent from "./CardComponent";
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -13,7 +14,7 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 function Posts() {
-  const [posts, setPosts] = useState(null);
+  const [posts, setPosts] = useState([]);
 
   useEffect(() => {
     sanityClient
@@ -21,6 +22,8 @@ function Posts() {
         `*[_type == "post"]{
             title,
             slug,
+            author,
+            body,
             mainImage{
                 asset->{
                     _id,
@@ -34,16 +37,18 @@ function Posts() {
       .catch(console.error);
   }, []);
 
+  console.log(posts);
+
   return (
-    <div>
-      <Box sx={{ width: "100%" }}>
-        <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+    <Box sx={{ width: "100%" }}>
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+        {posts.map((post) => 
           <Grid item xs={12} md={6}>
-            <Item>1</Item>
+            <CardComponent title={post.title} slug={post.slug} image={post.mainImage.asset.url} body={post.body[0].children[0].text}/>
           </Grid>
-        </Grid>
-      </Box>
-    </div>
+        )}
+      </Grid>
+    </Box>
   );
 }
 
