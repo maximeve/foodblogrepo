@@ -37,14 +37,12 @@ function Posts() {
       .catch(console.error);
   }, []);
 
-  console.log(posts);
-
   return (
     <Box sx={{ width: "100%" }}>
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
         {posts.map((post) => 
           <Grid item xs={12} md={6}>
-            <CardComponent title={post.title} slug={post.slug} image={post.mainImage.asset.url} body={post.body[0].children[0].text}/>
+            <CardComponent key={post.title} title={post.title} slug={post.slug} author={post.author._ref} image={post.mainImage.asset.url} body={post.body[0].children[0].text}/>
           </Grid>
         )}
       </Grid>

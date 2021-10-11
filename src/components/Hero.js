@@ -4,7 +4,7 @@ import Posts from './Posts';
 function Hero() {
     return (
         <div>
-            <Posts/>
+            
         </div>
     )
 }

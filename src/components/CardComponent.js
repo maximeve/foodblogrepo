@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{ useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import CardHeader from '@mui/material/CardHeader';
@@ -11,9 +11,9 @@ import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
 import { red } from '@mui/material/colors';
 import FavoriteIcon from '@mui/icons-material/Favorite';
-import ShareIcon from '@mui/icons-material/Share';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Link } from "react-router-dom";
+import sanityClient from "../client";
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -28,45 +28,57 @@ const ExpandMore = styled((props) => {
 
 
 function CardComponent(props) {
+
     const [expanded, setExpanded] = React.useState(false);
+    const [authors, setAuthors] = React.useState([]);
+    const [author, setAuthor] = React.useState([]);
+
+    useEffect(() => {
+      sanityClient
+        .fetch(
+          `*[_type == "author"]{
+            name,
+            _id
+          }`
+        ) 
+        .then((data) => setAuthors(data))
+        .catch(console.error);
+    }, []);
 
     const handleExpandClick = () => {
       setExpanded(!expanded);
     };
+    const authorInfo = authors.filter( (e) => {
+      return e._id === props.author;
+  });
 
     return (
         <Card sx={{ maxWidth: 345 }}>
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              R
+              
             </Avatar>
           }
-          action={
-            <IconButton aria-label="settings">
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title={props.title}
+          // title={authorInfo[0].name}
           // subheader="September 14, 2016"
         />
+        <Link to={`/${props.slug.current}`}>
         <CardMedia
           component="img"
           height="194"
           image={props.image}
           alt={props.title}
         />
+        </Link>
         <CardContent>
           <Typography variant="body2" color="text.secondary">
-            {props.body}
+            {props.title}
           </Typography>
         </CardContent>
         <CardActions disableSpacing>
           <IconButton aria-label="add to favorites">
             <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
           </IconButton>
           <ExpandMore
             expand={expanded}
@@ -79,7 +91,6 @@ function CardComponent(props) {
         </CardActions>
         <Collapse in={expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography paragraph>Method:</Typography>
             <Typography paragraph>
                 {props.body}
             </Typography>
