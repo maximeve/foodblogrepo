@@ -38,15 +38,13 @@ function Posts() {
   }, []);
 
   return (
-    <Box sx={{ width: "100%" }}>
-      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+      <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2, lg: 2 }}>
         {posts.map((post) => 
-          <Grid item xs={12} md={6}>
+          <Grid item xs={12} md={4} sm={12}>
             <CardComponent key={post.title} title={post.title} slug={post.slug} author={post.author._ref} image={post.mainImage.asset.url} body={post.body[0].children[0].text}/>
           </Grid>
         )}
       </Grid>
-    </Box>
   );
 }
 
