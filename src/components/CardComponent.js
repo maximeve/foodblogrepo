@@ -15,6 +15,9 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
 import sanityClient from "../client";
 
+
+const BlockContent = require('@sanity/block-content-to-react')
+
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
   return <IconButton {...other} />;
@@ -29,11 +32,10 @@ const ExpandMore = styled((props) => {
 function CardComponent(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [authors, setAuthors] = React.useState([]);
-  const [author, setAuthor] = React.useState([]);
+  const [authorID, setAuthorID] = React.useState(null);
 
-  useEffect(() => {
-    sanityClient
-      .fetch(
+  useEffect(async () => {
+    await sanityClient.fetch(
         `*[_type == "author"]{
             name,
             _id
@@ -43,13 +45,16 @@ function CardComponent(props) {
       .catch(console.error);
   }, []);
 
+  useEffect(() => {
+    var x =  authors.findIndex((e) => e._id === props.author)
+    setAuthorID(authors[x])
+  }, [authors]);
+
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  let x = authors.filter((e) => {
-    return e._id === props.author;
-  });
+  console.log(props.body)
 
   return (
     <Card>
@@ -57,10 +62,10 @@ function CardComponent(props) {
         avatar={
           <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe"></Avatar>
         }
-        // title={author}
+        title={ authorID != null ? authorID.name : 'Unknown Author'}
         // subheader="September 14, 2016"
       />
-      <Link to={`/${props.slug.current}`}>
+      <Link to={`post/${props.slug.current}`}>
         <CardMedia
           component="img"
           height="194"
@@ -69,7 +74,7 @@ function CardComponent(props) {
         />
       </Link>
       <CardContent>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="h6" color="text.secondary">
           {props.title}
         </Typography>
       </CardContent>
@@ -88,7 +93,7 @@ function CardComponent(props) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>{props.body}</Typography>
+      <Typography paragraph><BlockContent blocks={props.body} /></Typography>
         </CardContent>
       </Collapse>
     </Card>
