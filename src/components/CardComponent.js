@@ -34,16 +34,17 @@ function CardComponent(props) {
   const [authors, setAuthors] = React.useState([]);
   const [authorID, setAuthorID] = React.useState(null);
 
-  useEffect(async () => {
-    await sanityClient.fetch(
+  useEffect(() => {
+    (async function(){await sanityClient.fetch(
         `*[_type == "author"]{
             name,
-            _id
+            _id,
+            "imageUrl": image.asset->url
           }`
       )
       .then((data) => setAuthors(data))
       .catch(console.error);
-  }, []);
+  })()}, [props.author]);
 
   useEffect(() => {
     var x =  authors.findIndex((e) => e._id === props.author)
@@ -54,13 +55,13 @@ function CardComponent(props) {
     setExpanded(!expanded);
   };
 
-  console.log(props.body)
+  console.log(authorID)
 
   return (
     <Card>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe"></Avatar>
+          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={authorID != null ? authorID.imageUrl : ''}></Avatar>
         }
         title={ authorID != null ? authorID.name : 'Unknown Author'}
         // subheader="September 14, 2016"

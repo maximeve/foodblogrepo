@@ -8,6 +8,7 @@ import Typography from "@mui/material/Typography";
 import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
+import AccountCircle from '@mui/icons-material/AccountCircle';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -83,6 +84,15 @@ function Navbar() {
                 inputProps={{ "aria-label": "search" }}
               />
             </Search>
+            <IconButton
+                size="large"
+                aria-label="account of current user"
+                aria-controls="menu-appbar"
+                aria-haspopup="true"
+                color="inherit"
+              >
+                <AccountCircle />
+              </IconButton>
           </Toolbar>
         </AppBar>
       </Box>

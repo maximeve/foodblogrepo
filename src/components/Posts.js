@@ -1,23 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
 import sanityClient from "../client";
 import CardComponent from "./CardComponent";
-
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
 
 function Posts() {
   const [posts, setPosts] = useState([]);
 
-  useEffect(async () => {
-    await sanityClient.fetch(
+  useEffect(() => {
+    (async function(){
+      await sanityClient.fetch(
         `*[_type == "post"]{
             title,
             slug,
@@ -34,7 +25,7 @@ function Posts() {
       )
       .then((data) => setPosts(data))
       .catch(console.error);
-  }, []);
+  })()}, []);
 
   return (
       <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2, lg: 2 }}>
