@@ -51,9 +51,10 @@ function SinglePost() {
   }, []);
 
   useEffect(() => {
-    var x = authorData.findIndex((e) => e._id === postData[0].author._ref);
-    setAuthorID(authorData[x]);
-  }, []);
+    var x = authorData.map((e) => e._id === postData[0].author._ref);
+    var y = x.findIndex((e) => e === true);
+    setAuthorID(authorData[y]);
+  }, [authorData]);
 
   console.log(authorID);
 
@@ -68,6 +69,7 @@ function SinglePost() {
             aria-label="author"
             src={authorID ? authorID.imageUrl : ""}
           ></Avatar>
+          <h3>{authorID ? authorID.name : ""}</h3>
           <img src={postData[0].mainImage.asset.url} width="100%" />
           <BlockContent blocks={postData[0].body} />
         </>
