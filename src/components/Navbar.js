@@ -9,6 +9,8 @@ import InputBase from "@mui/material/InputBase";
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import AccountCircle from '@mui/icons-material/AccountCircle';
+import { Link } from "react-router-dom";
+import './Navbar.css';
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -58,22 +60,15 @@ function Navbar() {
       <Box sx={{ flexGrow: 1, mb:5 }}>
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
             <Typography
               variant="h6"
               noWrap
               component="div"
               sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
             >
+              <Link to="/">
               Foodblog
+              </Link>
             </Typography>
             <Search>
               <SearchIconWrapper>
@@ -91,7 +86,9 @@ function Navbar() {
                 aria-haspopup="true"
                 color="inherit"
               >
+                <Link to="/account">
                 <AccountCircle />
+                </Link>
               </IconButton>
           </Toolbar>
         </AppBar>
