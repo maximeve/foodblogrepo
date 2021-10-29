@@ -4,21 +4,19 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { signup } from '../firebase';
+import { signup, useAuth } from '../firebase';
 
 const theme = createTheme();
 
 export default function SignUp(props) {
   const [loading,setLoading] = useState(false)
+  const currentUser = useAuth();
 
   async function handleSignup(event){
     setLoading(true)
@@ -27,8 +25,8 @@ export default function SignUp(props) {
     try{
       await signup( data.get("email"),data.get("password") )
     }
-    catch{
-      alert("error")
+    catch(error){
+      console.log(error)
     }
     setLoading(false)
   }
@@ -81,7 +79,7 @@ export default function SignUp(props) {
               </Grid>
             </Grid>
             <Button
-              disabled={loading}
+              disabled={loading || currentUser != null}
               type="submit"
               fullWidth
               variant="contained"
@@ -89,13 +87,6 @@ export default function SignUp(props) {
             >
               Sign Up
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <div onClick={props.handleChange}>
-                  {"Already have an account? Sign in"}
-                </div>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>

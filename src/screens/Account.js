@@ -1,13 +1,16 @@
 import React,{useState} from "react";
 import { useSelector } from "react-redux";
-import SignIn from '../components/SignIn';
+import Logout from '../components/Logout';
 import SignUp from '../components/SignUp';
-import {login, logout} from '../store/accountStore/accountSlice'
+import { useAuth } from '../firebase';
+
 
 export default function Account() {
     const [state,setState] = useState(false)
+    const currentUser = useAuth();
     const isLoggedIn = useSelector(state => state.account.isLoggedIn)
     console.log(isLoggedIn)
+    console.log(currentUser)
 
     const handleChange = () => {
         setState(!state)
@@ -19,7 +22,7 @@ export default function Account() {
 
     return (
         <>
-        { state === true ? <SignIn handleChange={handleChange}/> : <SignUp handleChange={handleChange}/> }
+        { currentUser != null ? <Logout handleChange={handleChange}/> : <SignUp handleChange={handleChange}/> }
         </>
     )
 }

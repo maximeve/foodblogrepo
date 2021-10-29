@@ -1,5 +1,6 @@
+import { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth';
 
 
 const firebaseConfig = {
@@ -16,5 +17,22 @@ const firebaseConfig = {
 
   export function signup(email,password){
     return createUserWithEmailAndPassword(auth, email, password);
+  }
+
+  export function logout(){
+    signOut(auth)
+  }
+
+  //Hook
+
+  export function useAuth(){
+    const [currentUser, setcurrentUser] = useState();
+
+    useEffect(() => {
+      const unsub = onAuthStateChanged(auth, user => {setcurrentUser(user)})
+      return unsub;
+    }, [])
+
+    return currentUser;
   }
   
