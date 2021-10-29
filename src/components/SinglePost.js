@@ -56,9 +56,7 @@ function SinglePost() {
     setAuthorID(authorData[y]);
   }, [authorData]);
 
-  console.log(authorID);
-
-  return (
+  const loadedPost = (
     <Container maxWidth="lg">
       {postData === null ? (
         ""
@@ -76,6 +74,24 @@ function SinglePost() {
       )}
     </Container>
   );
+
+  const LoadingPost = (
+    <Container maxWidth="lg">
+      {postData === null ? (
+        ""
+      ) : (
+        <>
+          <h1>{postData[0].title}</h1>
+          <Avatar aria-label="author" src=""></Avatar>
+          <h3>Loading</h3>
+          <img src="" width="100%" />
+          <BlockContent />
+        </>
+      )}
+    </Container>
+  );
+
+  return <>{postData != null && authorID != null ? loadedPost : LoadingPost}</>;
 }
 
 export default SinglePost;

@@ -15,8 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
 import sanityClient from "../client";
 
-
-const BlockContent = require('@sanity/block-content-to-react')
+const BlockContent = require("@sanity/block-content-to-react");
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -35,35 +34,40 @@ function CardComponent(props) {
   const [authorID, setAuthorID] = React.useState(null);
 
   useEffect(() => {
-    (async function(){await sanityClient.fetch(
-        `*[_type == "author"]{
+    (async function () {
+      await sanityClient
+        .fetch(
+          `*[_type == "author"]{
             name,
             _id,
             "imageUrl": image.asset->url
           }`
-      )
-      .then((data) => setAuthors(data))
-      .catch(console.error);
-  })()}, [props.author]);
+        )
+        .then((data) => setAuthors(data))
+        .catch(console.error);
+    })();
+  }, [props.author]);
 
   useEffect(() => {
-    var x =  authors.findIndex((e) => e._id === props.author)
-    setAuthorID(authors[x])
+    var x = authors.findIndex((e) => e._id === props.author);
+    setAuthorID(authors[x]);
   }, [authors]);
 
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
 
-  console.log(authorID)
-
-  return (
+  const loadedCard = (
     <Card>
       <CardHeader
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe" src={authorID != null ? authorID.imageUrl : ''}></Avatar>
+          <Avatar
+            sx={{ bgcolor: red[500] }}
+            aria-label="recipe"
+            src={authorID != null ? authorID.imageUrl : ""}
+          ></Avatar>
         }
-        title={ authorID != null ? authorID.name : 'Unknown Author'}
+        title={authorID != null ? authorID.name : "Unknown Author"}
         // subheader="September 14, 2016"
       />
       <Link to={`post/${props.slug.current}`}>
@@ -94,11 +98,38 @@ function CardComponent(props) {
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-      <Typography paragraph><BlockContent blocks={props.body} /></Typography>
+          <Typography paragraph>
+            <BlockContent blocks={props.body} />
+          </Typography>
         </CardContent>
       </Collapse>
     </Card>
   );
+
+  const Loading = (
+    <Card>
+      <CardContent>
+        <Typography variant="h6" color="text.secondary">
+          Loading
+        </Typography>
+      </CardContent>
+      <CardActions disableSpacing>
+        <IconButton aria-label="add to favorites">
+          <FavoriteIcon />
+        </IconButton>
+        <ExpandMore
+          expand={expanded}
+          onClick={handleExpandClick}
+          aria-expanded={expanded}
+          aria-label="show more"
+        >
+          <ExpandMoreIcon />
+        </ExpandMore>
+      </CardActions>
+    </Card>
+  );
+
+  return <>{authorID != null ? loadedCard : Loading}</>;
 }
 
 export default CardComponent;
