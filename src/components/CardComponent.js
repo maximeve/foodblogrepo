@@ -57,6 +57,10 @@ function CardComponent(props) {
     setExpanded(!expanded);
   };
 
+  const favoriteHandler = () => {
+    console.log('test'+ props.slug.current)
+  }
+
   const loadedCard = (
     <Card>
       <CardHeader
@@ -115,7 +119,7 @@ function CardComponent(props) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon />
+          <FavoriteIcon onClick={favoriteHandler} />
         </IconButton>
         <ExpandMore
           expand={expanded}

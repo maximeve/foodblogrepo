@@ -1,5 +1,9 @@
 a {
     text-decoration: none;
     color: white;
+    align-items: center;
+}
 
+a svg{
+    padding-top: 20%;
 }

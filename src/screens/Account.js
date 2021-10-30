@@ -8,8 +8,6 @@ import { useAuth } from '../firebase';
 export default function Account() {
     const [state,setState] = useState(false)
     const currentUser = useAuth();
-    const isLoggedIn = useSelector(state => state.account.isLoggedIn)
-    console.log(isLoggedIn)
     console.log(currentUser)
 
     const handleChange = () => {
@@ -22,7 +20,7 @@ export default function Account() {
 
     return (
         <>
-        { currentUser != null ? <Logout handleChange={handleChange}/> : <SignUp handleChange={handleChange}/> }
+        { currentUser !== null ? <Logout handleChange={handleChange}/> : <SignUp handleChange={handleChange}/> }
         </>
     )
 }

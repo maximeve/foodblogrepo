@@ -3,6 +3,7 @@ import sanityClient from "../client";
 import { useParams } from "react-router-dom";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
+import Box from "@mui/material/Box";
 
 const BlockContent = require("@sanity/block-content-to-react");
 
@@ -63,11 +64,18 @@ function SinglePost() {
       ) : (
         <>
           <h1>{postData[0].title}</h1>
-          <Avatar
-            aria-label="author"
-            src={authorID ? authorID.imageUrl : ""}
-          ></Avatar>
-          <h3>{authorID ? authorID.name : ""}</h3>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          >
+            <Avatar
+              aria-label="author"
+              src={authorID ? authorID.imageUrl : ""}
+            ></Avatar>
+            <h3 style={{ paddingLeft: "10px"}}>{authorID ? authorID.name : ""}</h3>
+          </Box>
           <img src={postData[0].mainImage.asset.url} width="100%" />
           <BlockContent blocks={postData[0].body} />
         </>
@@ -91,7 +99,9 @@ function SinglePost() {
     </Container>
   );
 
-  return <>{postData != null && authorID != null ? loadedPost : LoadingPost}</>;
+  return (
+    <>{postData !== null && authorID !== null ? loadedPost : LoadingPost}</>
+  );
 }
 
 export default SinglePost;
