@@ -69,6 +69,9 @@ function Navbar() {
               <Link to="/">
               Foodblog
               </Link>
+              <Link to="/favorites">
+              Favorites
+              </Link>
             </Typography>
             <Search>
               <SearchIconWrapper>

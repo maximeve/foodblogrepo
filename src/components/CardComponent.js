@@ -15,7 +15,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
 import sanityClient from "../client";
 import { useAuth } from '../firebase';
-import { useSelector} from 'react-redux';
+import { useSelector, useDispatch} from 'react-redux';
 import { addFavorite } from '../store/accountStore/accountSlice';
 
 const BlockContent = require("@sanity/block-content-to-react");
@@ -36,7 +36,7 @@ function CardComponent(props) {
   const [authors, setAuthors] = React.useState([]);
   const [authorID, setAuthorID] = React.useState(null);
   const currentUser = useAuth();
-  const addToFavorite = useSelector(addFavorite);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     (async function () {
@@ -64,7 +64,7 @@ function CardComponent(props) {
 
   const favoriteHandler = () => {
     if (currentUser !== null){
-      console.log("test" + props);
+      dispatch(addFavorite(props));
     } else {
       console.log('please log in')
     }
