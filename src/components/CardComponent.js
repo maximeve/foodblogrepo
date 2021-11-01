@@ -14,6 +14,9 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { Link } from "react-router-dom";
 import sanityClient from "../client";
+import { useAuth } from '../firebase';
+import { useSelector} from 'react-redux';
+import { addFavorite } from '../store/accountStore/accountSlice';
 
 const BlockContent = require("@sanity/block-content-to-react");
 
@@ -32,6 +35,8 @@ function CardComponent(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [authors, setAuthors] = React.useState([]);
   const [authorID, setAuthorID] = React.useState(null);
+  const currentUser = useAuth();
+  const addToFavorite = useSelector(addFavorite);
 
   useEffect(() => {
     (async function () {
@@ -58,8 +63,12 @@ function CardComponent(props) {
   };
 
   const favoriteHandler = () => {
-    console.log('test'+ props.slug.current)
-  }
+    if (currentUser !== null){
+      console.log("test" + props);
+    } else {
+      console.log('please log in')
+    }
+  };
 
   const loadedCard = (
     <Card>
@@ -88,7 +97,7 @@ function CardComponent(props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites">
+        <IconButton aria-label="add to favorites" onClick={favoriteHandler}>
           <FavoriteIcon />
         </IconButton>
         <ExpandMore
@@ -119,7 +128,7 @@ function CardComponent(props) {
       </CardContent>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites">
-          <FavoriteIcon onClick={favoriteHandler} />
+          <FavoriteIcon />
         </IconButton>
         <ExpandMore
           expand={expanded}

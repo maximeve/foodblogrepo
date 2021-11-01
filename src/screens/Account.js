@@ -1,5 +1,4 @@
 import React,{useState} from "react";
-import { useSelector } from "react-redux";
 import Logout from '../components/Logout';
 import SignUp from '../components/SignUp';
 import { useAuth } from '../firebase';
@@ -8,7 +7,6 @@ import { useAuth } from '../firebase';
 export default function Account() {
     const [state,setState] = useState(false)
     const currentUser = useAuth();
-    console.log(currentUser)
 
     const handleChange = () => {
         setState(!state)

@@ -16,6 +16,7 @@ const theme = createTheme();
 
 export default function SignUp(props) {
   const [loading,setLoading] = useState(false)
+  const [error, setError] = useState('')
   const currentUser = useAuth();
 
   async function handleSignup(event){
@@ -26,7 +27,7 @@ export default function SignUp(props) {
       await signup( data.get("email"),data.get("password") )
     }
     catch(error){
-      console.log(error)
+      setError('Oops..something went wrong!')
     }
     setLoading(false)
   }
@@ -88,6 +89,7 @@ export default function SignUp(props) {
               Sign Up
             </Button>
           </Box>
+        <p>{error}</p>
         </Box>
       </Container>
     </ThemeProvider>

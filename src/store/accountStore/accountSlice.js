@@ -4,7 +4,8 @@ import { createSlice } from '@reduxjs/toolkit'
 export const accountSlice = createSlice({
   name: 'account',
   initialState : {
-    isLoggedIn : false
+    isLoggedIn : false,
+    favoritePosts : []
   },
   reducers: {
     login: (state,action) => {
@@ -12,12 +13,15 @@ export const accountSlice = createSlice({
     },
     logout: (state) => {
         state.isLoggedIn = false;
-    }
+    },
+    addFavorite: (state,action) => {
+      state.favoritePosts.push(action.payload)
+  },
 },
 })
 
 // Action creators are generated for each case reducer function
-export const { login, logout } = accountSlice.actions
+export const { login, logout, addFavorite } = accountSlice.actions
 
 export const  selectUser = state => state.account.isLoggedIn
 
