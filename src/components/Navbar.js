@@ -64,12 +64,19 @@ function Navbar() {
               variant="h6"
               noWrap
               component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
+              sx={{ mr: 2, flexGrow: 0, display: { xs: "none", sm: "block" } }}
             >
               <Link to="/">
               Foodblog
               </Link>
-              <Link to="/favorites">
+            </Typography>
+            <Typography
+              variant="h7"
+              noWrap
+              component="div"
+              sx={{flexGrow: 1, display: { xs: "none", sm: "block" } }}
+            >
+              <Link to="/favorites" variant="h7">
               Favorites
               </Link>
             </Typography>

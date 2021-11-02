@@ -9,7 +9,6 @@ const BlockContent = require("@sanity/block-content-to-react");
 
 function SinglePost() {
   const [postData, setPostData] = useState(null);
-  const [authorID, setAuthorID] = React.useState(null);
   const [authorData, setAuthorData] = React.useState([]);
   const params = useParams();
 
@@ -51,12 +50,6 @@ function SinglePost() {
     })();
   }, []);
 
-  useEffect(() => {
-    var x = authorData.map((e) => e._id === postData[0].author._ref);
-    var y = x.findIndex((e) => e === true);
-    setAuthorID(authorData[y]);
-  }, [authorData]);
-
   const loadedPost = (
     <Container maxWidth="lg">
       {postData === null ? (
@@ -70,11 +63,6 @@ function SinglePost() {
               alignItems: "center",
             }}
           >
-            <Avatar
-              aria-label="author"
-              src={authorID ? authorID.imageUrl : ""}
-            ></Avatar>
-            <h3 style={{ paddingLeft: "10px"}}>{authorID ? authorID.name : ""}</h3>
           </Box>
           <img src={postData[0].mainImage.asset.url} width="100%" />
           <BlockContent blocks={postData[0].body} />
@@ -100,7 +88,7 @@ function SinglePost() {
   );
 
   return (
-    <>{postData !== null && authorID !== null ? loadedPost : LoadingPost}</>
+    <>{postData !== null ? loadedPost : LoadingPost}</>
   );
 }
 

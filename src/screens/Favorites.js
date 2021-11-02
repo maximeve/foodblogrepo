@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import Grid from "@mui/material/Grid";
 import CardComponent from "../components/CardComponent";
 import Typography from "@mui/material/Typography";
+import Container from '@mui/material/Container';
 
 function Favorites() {
   const favoriteItems = useSelector((state) => state.account.favoritePosts);
@@ -10,11 +11,7 @@ function Favorites() {
   console.log(favoriteItems);
 
   const Favorites = (
-    <Grid
-      container
-      rowSpacing={1}
-      columnSpacing={{ xs: 1, sm: 2, md: 2, lg: 2 }}
-    >
+    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2, lg: 2 }}>
       {favoriteItems.map((post) => (
         <Grid item xs={12} md={4} sm={12}>
           <CardComponent
@@ -31,11 +28,7 @@ function Favorites() {
   );
 
   const NoFavorites = (
-    <Grid
-      container
-      rowSpacing={1}
-      columnSpacing={{ xs: 1, sm: 2, md: 2, lg: 2 }}
-    >
+    <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 2, lg: 2 }}>
       <Grid item xs={12} md={4} sm={12}>
         <Typography component="h1" variant="h5">
           No favorite posts saved
@@ -45,7 +38,9 @@ function Favorites() {
   );
 
   return (
-    <>{favoriteItems ? Favorites : NoFavorites}</>
+    <Container maxWidth="xl"><Typography variant="h3" mb={4} component="h2">
+    Favorite Posts
+  </Typography>{favoriteItems ? Favorites : NoFavorites}</Container>
   );
 }
 
