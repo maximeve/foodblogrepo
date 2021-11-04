@@ -35,6 +35,7 @@ function CardComponent(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [authors, setAuthors] = React.useState([]);
   const [authorID, setAuthorID] = React.useState(null);
+  const favoriteItems = useSelector((state) => state.account.favoritePosts);
   const currentUser = useAuth();
   const dispatch = useDispatch()
 
@@ -63,8 +64,10 @@ function CardComponent(props) {
   };
 
   const favoriteHandler = () => {
+    const index = favoriteItems.findIndex(item => item.title === props.title);
     if (currentUser !== null){
-      dispatch(addFavorite(props));
+      if(index === -1){
+      dispatch(addFavorite(props));}
     } else {
       console.log('please log in')
     }
