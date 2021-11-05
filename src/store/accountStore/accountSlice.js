@@ -5,8 +5,10 @@ export const accountSlice = createSlice({
   name: 'account',
   initialState : {
     isLoggedIn : false,
-    favoritePosts : []
+    favoritePosts : [],
+    search : ''
   },
+
   reducers: {
     login: (state,action) => {
         state.isLoggedIn = action.payload;
@@ -17,11 +19,14 @@ export const accountSlice = createSlice({
     addFavorite: (state,action) => {
       state.favoritePosts.push(action.payload)
   },
+    setSearch : (state, action) => {
+      state.search = action.payload
+    } 
 },
 })
 
 // Action creators are generated for each case reducer function
-export const { login, logout, addFavorite } = accountSlice.actions
+export const { login, logout, addFavorite, setSearch } = accountSlice.actions
 
 export const  selectUser = state => state.account.isLoggedIn
 

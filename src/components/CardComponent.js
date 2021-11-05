@@ -35,6 +35,7 @@ function CardComponent(props) {
   const [expanded, setExpanded] = React.useState(false);
   const [authors, setAuthors] = React.useState([]);
   const [authorID, setAuthorID] = React.useState(null);
+  const [error, setError] = React.useState(null);
   const favoriteItems = useSelector((state) => state.account.favoritePosts);
   const currentUser = useAuth();
   const dispatch = useDispatch()
@@ -69,7 +70,7 @@ function CardComponent(props) {
       if(index === -1){
       dispatch(addFavorite(props));}
     } else {
-      console.log('please log in')
+      setError('Please log in to save to favorites')
     }
   };
 
@@ -112,6 +113,9 @@ function CardComponent(props) {
           <ExpandMoreIcon />
         </ExpandMore>
       </CardActions>
+      <Typography paragraph sx={{ color: red[500], display: "flex", justifyContent: "center" }}>
+        {error? error : ''}
+    </Typography>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
           <Typography paragraph>
