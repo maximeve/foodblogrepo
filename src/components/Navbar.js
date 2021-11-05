@@ -62,6 +62,7 @@ function Navbar() {
   const searchHandler = () => {
     dispatch(setSearch((searchInput.current.value)))
   }
+  
   return (
     <nav>
       <Box sx={{ flexGrow: 1, mb:5 }}>
