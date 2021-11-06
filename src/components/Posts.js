@@ -38,9 +38,12 @@ function Posts() {
   useEffect(() => {
     if (searchedItem.length > 0 ){
       let result = posts.findIndex((e) => e.title === searchedItem);
-      setSearchArray([posts[result]]);
-      console.log(searchArray);
-    }
+      if(result !== -1){
+        setSearchArray([posts[result]]);
+      }
+    } else {
+      setSearchArray(null)
+    } 
   }, [searchedItem]);
 
   return (
